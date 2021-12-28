@@ -33,7 +33,6 @@
   ],
   "scripts": {
     "test": "hardhat test --network hardhat",
-    "deploy": "hardhat deploy:defiavgprice",
     "compile": "hardhat compile",
     "typechain": "hardhat typechain"
   }
