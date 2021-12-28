@@ -24,10 +24,6 @@ $ yarn hardhat typechain
 
 ### Test
 ```console
-// on terminal-1
-$ yarn hardhat node
-
-// on terminal-2
 $ yarn hardhat test
 ```
 
