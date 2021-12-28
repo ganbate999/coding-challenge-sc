@@ -14,17 +14,17 @@ $ yarn install
 
 ### Build
 ```console
-$ yarn hardhat compile
+$ yarn compile
 ```
 
 ### Typechain
 ```console
-$ yarn hardhat typechain
+$ yarn typechain
 ```
 
 ### Test
 ```console
-$ yarn hardhat test
+$ yarn test
 ```
 
 ### Deploying contracts to localhost Hardhat EVM
