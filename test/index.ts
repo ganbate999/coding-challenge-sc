@@ -1,10 +1,7 @@
 import { ethers, upgrades } from "hardhat";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { expect } from "chai";
-import { Contract, ContractFactory, Signer } from 'ethers';
-import DeFiAvgPriceV1ABI from "../data/abi/DeFiAvgPriceV1.json";
-import DeFiAvgPriceV2ABI from "../data/abi/DeFiAvgPriceV2.json";
-import DeFiAvgPriceV3ABI from "../data/abi/DeFiAvgPriceV3.json";
+import { Contract, ContractFactory } from 'ethers';
 
 describe("DeFiAvgPrice Test ...........", function () {
 

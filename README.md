@@ -34,11 +34,11 @@ $ yarn hardhat test
 $ yarn hardhat node
 
 // on terminal-2
-$ yarn hardhat deploy:defiavgpriceV1 --network localhost1
+$ yarn hardhat deploy:defiavgpriceV1 --network development
 
-$ yarn hardhat deploy:defiavgpriceV2 --network localhost1 --proxy <Proxy Address>
+$ yarn hardhat deploy:defiavgpriceV2 --network development --proxy <Proxy Address>
 
-$ yarn hardhat deploy:defiavgpriceV3 --network localhost1 --proxy <Proxy Address>
+$ yarn hardhat deploy:defiavgpriceV3 --network development --proxy <Proxy Address>
 ```
 
 

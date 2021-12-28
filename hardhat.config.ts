@@ -6,7 +6,6 @@ import "@nomiclabs/hardhat-waffle";
 import "@openzeppelin/hardhat-upgrades";
 import "@typechain/hardhat";
 import "hardhat-gas-reporter";
-import "hardhat-abi-exporter";
 import "solidity-coverage";
 
 import "./tasks/deploy";
@@ -77,14 +76,6 @@ const config: HardhatUserConfig = {
   typechain: {
     outDir: "types",
     target: "ethers-v5",
-  },
-  abiExporter: {
-    path: './data/abi',
-    runOnCompile: true,
-    clear: true,
-    flat: true,
-    spacing: 2,
-    pretty: true,
   }
 };
 
