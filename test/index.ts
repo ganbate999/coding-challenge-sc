@@ -1,20 +1,21 @@
-import { ethers, upgrades } from "hardhat";
-import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { expect } from "chai";
 import { Contract, ContractFactory } from 'ethers';
+import { upgrades, ethers } from 'hardhat';
+import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers';
 
 describe("DeFiAvgPrice Test ...........", function () {
 
+  let owner: SignerWithAddress;
+  let addr1: SignerWithAddress;
+  let addr2: SignerWithAddress;
   let testToken: Contract;
   let defiAvgPriceContract: Contract;
   let DefiAvgPriceV1: ContractFactory;
   let DefiAvgPriceV2: ContractFactory;
   let DefiAvgPriceV3: ContractFactory;
-  let owner: SignerWithAddress;
-  let addr1: SignerWithAddress;
-  let addr2: SignerWithAddress;
-
+  
   beforeEach(async () => {
+    
     [owner, addr1, addr2] = await ethers.getSigners();
 
     const TestToken = await ethers.getContractFactory("TestToken", owner);

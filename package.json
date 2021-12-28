@@ -27,10 +27,12 @@
     "@openzeppelin/contracts-upgradeable": "^4.4.1"
   },
   "files": [
-    "/contracts"
+    "/contracts",
+    "/tasks",
+    "/test"
   ],
   "scripts": {
-    "test": "hardhat test",
+    "test": "hardhat test --network hardhat",
     "deploy": "hardhat deploy:defiavgprice",
     "compile": "hardhat compile",
     "typechain": "hardhat typechain"
