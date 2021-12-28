@@ -2,17 +2,48 @@
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
+import "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import "hardhat/console.sol";
-import "./Storage.sol";
-
 
 /// DeFiAvgPrice base contract
-contract DeFiAvgPrice is Storage {
+contract DeFiAvgPrice is PausableUpgradeable, OwnableUpgradeable {
 
     using SafeMath for uint256;
 
+    /// Token Price Structure
+    /// @price : Token Price
+    /// @totalPrice : Sum of past recorded prices
+    /// @totalCounter : Index of map
+    /// @pastTimeStamp : Past record`s timestamp of map
+    struct TokenPrice {
+        uint256 price;
+        uint256 totalPrice;
+        uint256 totalCounter;
+        uint256 pastTimeStamp;
+    }
+
+    /// Mapping of token address => timestamp (date) => TokenPrice
+    mapping( address => mapping(uint256 => TokenPrice)) public getTokenDailyPrice;
+
+    /// Last TimeStamp of map
+    uint256 public lastTimeStamp;
+    
+    /// Index Counter of map
+    uint256 public tokenPriceIndex;
+
     /// Events
     event SetPrice(address indexed, address indexed, uint256, uint256);
+
+    function initialize() public initializer {
+        lastTimeStamp = 0;
+        tokenPriceIndex = 0;
+        __Ownable_init();
+        __Pausable_init();
+    }
+
+    /// @custom:oz-upgrades-unsafe-allow constructor
+    constructor() initializer {}
 
     /// Return timestamp of map`s record
     function getRecordTimestamp(uint256 _timestamp) internal virtual pure returns (uint256) {
@@ -77,9 +108,6 @@ contract DeFiAvgPrice is Storage {
         
         require(startTimestamp > 1, "invalid start time");
 
-        console.log("last", lastTimeStamp);
-        console.log("start", startTimestamp);
-
         //require(lastTimeStamp < startTimestamp, "no price");
 
         uint256 startTotalTimestamp = getDailyTokenPriceTimestamp(_tokenAddress, lastTimeStamp, startTimestamp.sub(1));
@@ -90,7 +118,7 @@ contract DeFiAvgPrice is Storage {
         uint256 rangeTotalPrice = getTokenDailyPrice[_tokenAddress][endTotalTimestamp].totalPrice.sub(getTokenDailyPrice[_tokenAddress][startTotalTimestamp].totalPrice);
         uint256 count = getTokenDailyPrice[_tokenAddress][endTotalTimestamp].totalCounter.sub(getTokenDailyPrice[_tokenAddress][startTotalTimestamp].totalCounter);
 
-        require(count > 0, "no price - counter 0");
+        require(count > 0, "no price");
 
         return rangeTotalPrice.div(count);
     }
@@ -106,7 +134,7 @@ contract DeFiAvgPrice is Storage {
 
         uint256 targetTimestamp = getDailyTokenPriceTimestamp(_tokenAddress, lastTimeStamp, timestamp);
 
-        require(targetTimestamp > 0, "No price");
+        require(targetTimestamp > 0, "no price");
 
         return getTokenDailyPrice[_tokenAddress][targetTimestamp].price;
     }

@@ -1,38 +1,37 @@
 import { task } from "hardhat/config";
 import { TaskArguments } from "hardhat/types";
 
-task("deploy:defiavgprice")
-  .setAction(async function (taskArguments: TaskArguments, { ethers }) {
+task("deploy:defiavgpriceV1", "Deploy DeFiAvgPrice Contract Version 1.0")
+  .setAction(async function (taskArguments: TaskArguments, { ethers, upgrades }) {
    
     const DefiAvgPriceV1 = await ethers.getContractFactory("DeFiAvgPriceV1");
-    const defiAvgPriceV1 = await DefiAvgPriceV1.deploy();
-
-    await defiAvgPriceV1.deployed();
-
-    console.log("DefiAvgPriceV1 deployed to:", defiAvgPriceV1.address);
-
-    const Proxy = await ethers.getContractFactory("Proxy");
-    const proxy = await Proxy.deploy(defiAvgPriceV1.address);
-
+ 
+    const proxy = await upgrades.deployProxy(DefiAvgPriceV1, [], { initializer: 'initialize' });
     await proxy.deployed();
 
     console.log("Proxy version1 deployed => address:", proxy.address);
+  });
+
+
+task("deploy:defiavgpriceV2", "Deploy DeFiAvgPrice Contract Version 2.0")
+  .addParam("proxy", "The proxy's address")
+  .setAction(async( taskArguments: TaskArguments, {ethers, upgrades}) => {
 
     const DefiAvgPriceV2 = await ethers.getContractFactory("DeFiAvgPriceV2");
-    const defiAvgPriceV2 = await DefiAvgPriceV2.deploy();
 
-    await defiAvgPriceV2.deployed();
-    proxy.upgrade(defiAvgPriceV2.address);
+    const proxy = await upgrades.upgradeProxy(taskArguments.proxy, DefiAvgPriceV2);
 
-    console.log("DefiAvgPriceV2 deployed to:", defiAvgPriceV2.address);
     console.log("Proxy upgrade to version2 => address:", proxy.address);
+  });
 
+
+task("deploy:defiavgpriceV3", "Deploy DeFiAvgPrice Contract Version 3.0")
+  .addParam("proxy", "The proxy's address")
+  .setAction(async( taskArguments: TaskArguments, {ethers, upgrades}) => {
+    
     const DefiAvgPriceV3 = await ethers.getContractFactory("DeFiAvgPriceV3");
-    const defiAvgPriceV3 = await DefiAvgPriceV3.deploy();
+    
+    const proxy = await upgrades.upgradeProxy(taskArguments.proxy, DefiAvgPriceV3);
 
-    await defiAvgPriceV3.deployed();
-    proxy.upgrade(defiAvgPriceV3.address);
-
-    console.log("DefiAvgPriceV3 deployed to:", defiAvgPriceV3.address);
-    console.log("Proxy upgrade to version2 => address:", proxy.address);
+    console.log("Proxy upgrade to version3 => address:", proxy.address);
   });
