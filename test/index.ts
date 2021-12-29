@@ -167,15 +167,15 @@ describe("DeFiAvgPrice Test ...........", function () {
 
       expect(await defiAvgPriceContract.getAvgPrice(testToken.address, TIME_DAY_2_HOUR_0, TIME_DAY_2_HOUR_2)).to.eq(1500);
 
-      expect(await defiAvgPriceContract.getAvgPrice(testToken.address, TIME_DAY_2_HOUR_1, TIME_DAY_2_HOUR_3)).to.eq(2000);
+      expect(await defiAvgPriceContract.getAvgPrice(testToken.address, TIME_DAY_2_HOUR_1, TIME_DAY_2_HOUR_3)).to.eq(1500);
 
       await defiAvgPriceContract.setTokenPrice(testToken.address, TIME_DAY_2_HOUR_4, 3000);
 
       expect(await defiAvgPriceContract.getAvgPrice(testToken.address, TIME_DAY_2_HOUR_2, TIME_DAY_2_HOUR_4)).to.eq(2500);
 
-      expect(await defiAvgPriceContract.getAvgPrice(testToken.address, TIME_DAY_2_HOUR_1, TIME_DAY_2_HOUR_3)).to.eq(2000);
+      expect(await defiAvgPriceContract.getAvgPrice(testToken.address, TIME_DAY_2_HOUR_1, TIME_DAY_2_HOUR_3)).to.eq(1500);
 
-      expect(await defiAvgPriceContract.getAvgPrice(testToken.address, TIME_DAY_2_HOUR_3, TIME_DAY_2_HOUR_23)).to.eq(3000);
+      expect(await defiAvgPriceContract.getAvgPrice(testToken.address, TIME_DAY_2_HOUR_3, TIME_DAY_2_HOUR_23)).to.eq(2500);
 
       expect(await defiAvgPriceContract.getAvgPrice(testToken.address, TIME_DAY_2_HOUR_0, TIME_DAY_2_HOUR_4)).to.eq(2000);
 
