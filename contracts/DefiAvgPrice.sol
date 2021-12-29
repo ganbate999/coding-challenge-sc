@@ -108,7 +108,7 @@ contract DeFiAvgPrice is PausableUpgradeable, OwnableUpgradeable {
         
         require(startTimestamp > 1, "invalid start time");
 
-        //require(lastTimeStamp < startTimestamp, "no price");
+        require(lastTimeStamp >= startTimestamp, "no price");
 
         uint256 startTotalTimestamp = getDailyTokenPriceTimestamp(_tokenAddress, lastTimeStamp, startTimestamp.sub(1));
         uint256 endTotalTimestamp = getDailyTokenPriceTimestamp(_tokenAddress, lastTimeStamp, endTimestamp);
@@ -137,5 +137,16 @@ contract DeFiAvgPrice is PausableUpgradeable, OwnableUpgradeable {
         require(targetTimestamp > 0, "no price");
 
         return getTokenDailyPrice[_tokenAddress][targetTimestamp].price;
+    }
+
+    /// Implemented from PausableUpgradeable    
+    /// @notice Pause contract 
+    function pause() public onlyOwner whenNotPaused {
+        _pause();
+    }
+
+    /// @notice Unpause contract
+    function unpause() public onlyOwner whenPaused {
+        _unpause();
     }
 }
