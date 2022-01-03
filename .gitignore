@@ -1,6 +1,7 @@
 node_modules
 .openzeppelin
 .env
+.idea
 coverage
 coverage.json
 typechain
